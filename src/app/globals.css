@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-sans), "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-aura-bg: #F2F7FA;
+  --color-aura-surface: #EAF1F5;
+  --color-aura-card: #FFFFFF;
+  --color-aura-dark: #122130;
+  --color-aura-text: #2A3C4D;
+  --color-aura-muted: #647B8F;
+  --color-aura-accent: #5B7F95;
+  --color-aura-border: #D8E4EC;
+  --color-aura-line: #CCDCE6;
+  --color-aura-sand: #DECEBF;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #F2F7FA;
+    color: #122130;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+  }
+}
+
+/* Custom editorial styling */
+.editorial-title {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.text-accent-fade {
+  color: #5d8197;
+}
+
+/* Custom subtle animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

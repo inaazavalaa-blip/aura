@@ -2,70 +2,77 @@
 
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { SiteContent } from "@/types/content";
 
 interface ApproachProps {
+  data: SiteContent;
   onOpenTalk: () => void;
 }
 
-export default function Approach({ onOpenTalk }: ApproachProps) {
-  const steps = [
-    {
-      num: "01",
-      title: "Essence & Discovery",
-      desc: "An intimate consultation exploring your routine, personal tastes, aspirations, and how you genuinely want to feel when showing up in the world.",
-    },
-    {
-      num: "02",
-      title: "Colorimetry & Harmony",
-      desc: "A bespoke seasonal color study that unveils which palettes enhance your complexion, eyes, and hair with natural radiance.",
-    },
-    {
-      num: "03",
-      title: "Wardrobe Architecture",
-      desc: "A mindful closet edit to eliminate decision fatigue, repurpose cherished pieces, and create versatile outfit formulas for every day.",
-    },
-    {
-      num: "04",
-      title: "The Lookbook Blueprint",
-      desc: "Your customized digital dossier containing styled looks, curated shopping guidance, and lifetime styling principles.",
-    },
-  ];
-
+export default function Approach({ data, onOpenTalk }: ApproachProps) {
   return (
-    <section id="methodology" className="bg-[#F2F7FA] py-20 lg:py-28 border-b border-[#D8E4EC]/60">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section
+      id="methodology"
+      style={{
+        backgroundColor: "var(--bg-primary)",
+        borderBottomColor: "var(--border-light)",
+      }}
+      className="py-20 lg:py-28 border-b transition-colors duration-500"
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 animate-mode-switch">
         {/* Section Header */}
-        <div className="pb-4 border-b border-[#CCDCE6] flex items-center justify-between">
+        <div
+          style={{ borderColor: "var(--border-separator)" }}
+          className="pb-4 border-b flex items-center justify-between transition-colors duration-500"
+        >
           <div className="flex items-center gap-2.5">
             <svg
-              className="w-3.5 h-3.5 text-[#546b7f]"
+              style={{ color: "var(--color-accent)" }}
+              className="w-3.5 h-3.5 transition-colors duration-500"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
               <path d="M11 2h2v6.5l4.6-4.6 1.4 1.4L14.4 10H21v2h-6.6l4.6 4.6-1.4 1.4L13 13.4V20h-2v-6.6l-4.6 4.6-1.4-1.4L9.6 12H3v-2h6.6L5 5.4l1.4-1.4L11 8.6V2z" />
             </svg>
-            <span className="text-[11.5px] sm:text-xs font-sans uppercase font-semibold tracking-[0.25em] text-[#122130]">
-              The Methodology
+            <span
+              style={{ color: "var(--text-main)" }}
+              className="text-[11.5px] sm:text-xs font-sans uppercase font-semibold tracking-[0.25em] transition-colors duration-500"
+            >
+              {data.approach.category}
             </span>
           </div>
 
-          <div className="text-xs sm:text-sm font-sans font-medium tracking-widest text-[#546b7f]">
-            02 / 04
+          <div
+            style={{ color: "var(--text-dim)" }}
+            className="text-xs sm:text-sm font-sans font-medium tracking-widest transition-colors duration-500"
+          >
+            {data.approach.index}
           </div>
         </div>
 
         {/* Section Title & Intro */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 pt-12 lg:pt-16 pb-12">
           <div className="lg:col-span-8">
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.12] text-[#122130]">
-              An intentional process crafted around{" "}
-              <span className="text-[#5d8197]">who you are</span>, not ephemeral trends.
+            <h2
+              style={{ color: "var(--text-main)" }}
+              className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.12] transition-colors duration-500"
+            >
+              {data.approach.title}
+              <span
+                style={{ color: "var(--color-accent)" }}
+                className="font-normal transition-colors duration-500"
+              >
+                {data.approach.highlight}
+              </span>
+              {data.approach.titleEnd}
             </h2>
           </div>
           <div className="lg:col-span-4 flex items-end">
-            <p className="text-[#415566] text-base leading-relaxed">
-              We replace guesswork and closet overwhelm with clarity, cohesion,
-              and timeless self-assurance.
+            <p
+              style={{ color: "var(--text-muted)" }}
+              className="text-base leading-relaxed transition-colors duration-500"
+            >
+              {data.approach.intro}
             </p>
           </div>
         </div>
@@ -74,34 +81,48 @@ export default function Approach({ onOpenTalk }: ApproachProps) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Editorial Visual */}
           <div className="lg:col-span-5">
-            <div className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-xl">
+            <div
+              style={{ borderColor: "var(--border-light)" }}
+              className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-xl border transition-colors duration-500"
+            >
               <Image
-                src="/images/color-consultation.jpg"
-                alt="Personal color analysis and fabric curation"
+                key={data.approach.imageSrc}
+                src={data.approach.imageSrc}
+                alt={data.approach.imageAlt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-cover object-center"
+                className="object-cover object-center transition-transform duration-700 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
             </div>
           </div>
 
           {/* Pillars List */}
-          <div className="lg:col-span-7 space-y-8">
-            {steps.map((step) => (
+          <div className="lg:col-span-7 space-y-7">
+            {data.approach.steps.map((step) => (
               <div
                 key={step.num}
-                className="group border-b border-[#CCDCE6]/80 pb-6 transition-colors hover:border-[#122130]"
+                style={{ borderColor: "var(--border-separator)" }}
+                className="group border-b pb-5 transition-colors hover:border-current"
               >
                 <div className="flex items-baseline justify-between mb-2">
-                  <span className="text-xs font-mono tracking-widest text-[#5d8197] font-medium">
+                  <span
+                    style={{ color: "var(--color-accent)" }}
+                    className="text-xs font-mono tracking-widest font-semibold transition-colors duration-500"
+                  >
                     {step.num}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-serif text-[#122130] flex-1 ml-6 group-hover:text-[#5d8197] transition-colors">
+                  <h3
+                    style={{ color: "var(--text-main)" }}
+                    className="text-xl sm:text-2xl font-serif flex-1 ml-6 group-hover:opacity-80 transition-opacity"
+                  >
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-[#415566] text-sm sm:text-base leading-relaxed pl-10 sm:pl-12 max-w-xl">
+                <p
+                  style={{ color: "var(--text-muted)" }}
+                  className="text-sm sm:text-base leading-relaxed pl-10 sm:pl-12 max-w-xl transition-colors duration-500"
+                >
                   {step.desc}
                 </p>
               </div>
@@ -110,10 +131,14 @@ export default function Approach({ onOpenTalk }: ApproachProps) {
             <div className="pt-4 pl-10 sm:pl-12">
               <button
                 onClick={onOpenTalk}
-                className="inline-flex items-center gap-2 text-sm font-medium text-[#122130] hover:text-[#5d8197] transition-colors group"
+                style={{ color: "var(--text-main)" }}
+                className="inline-flex items-center gap-2 text-sm font-medium hover:opacity-80 transition-opacity group cursor-pointer"
               >
-                <span>Learn which step to begin with</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>{data.approach.cta}</span>
+                <ArrowUpRight
+                  style={{ color: "var(--color-accent)" }}
+                  className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
               </button>
             </div>
           </div>

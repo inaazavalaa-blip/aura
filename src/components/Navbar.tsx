@@ -2,12 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
+import { GenderMode, SiteContent } from "@/types/content";
 
 interface NavbarProps {
+  mode: GenderMode;
+  onToggleMode: (newMode: GenderMode) => void;
+  data: SiteContent;
   onOpenTalk: () => void;
 }
 
-export default function Navbar({ onOpenTalk }: NavbarProps) {
+export default function Navbar({
+  mode,
+  onToggleMode,
+  data,
+  onOpenTalk,
+}: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,43 +30,100 @@ export default function Navbar({ onOpenTalk }: NavbarProps) {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 ${
-        isScrolled
-          ? "bg-[#F2F7FA]/90 backdrop-blur-md border-b border-[#D8E4EC] py-3.5 shadow-sm"
-          : "bg-[#F2F7FA] py-5 border-b border-transparent"
+      style={{
+        backgroundColor: isScrolled ? "var(--nav-backdrop)" : "var(--bg-primary)",
+        borderBottomColor: isScrolled ? "var(--border-light)" : "transparent",
+      }}
+      className={`sticky top-0 z-40 transition-all duration-500 ${
+        isScrolled ? "backdrop-blur-md py-3.5 shadow-sm border-b" : "py-5 border-b"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between">
         {/* Brand Logo */}
         <a href="#" className="flex items-center gap-2.5 group">
-          <span className="font-serif text-3xl sm:text-[34px] font-normal tracking-tight text-[#122130] leading-none">
-            aura
+          <span
+            style={{ color: "var(--text-main)" }}
+            className="font-serif text-3xl sm:text-[34px] font-normal tracking-tight leading-none transition-colors duration-500"
+          >
+            {data.brand.name}
           </span>
-          <div className="flex flex-col text-[8.5px] font-sans font-semibold tracking-[0.25em] text-[#546b7f] leading-[1.1] border-l border-[#cfdde6] pl-2.5 py-0.5 uppercase">
-            <span>IMAGE</span>
-            <span>STUDIO</span>
+          <div
+            style={{
+              borderColor: "var(--border-separator)",
+              color: "var(--text-muted)",
+            }}
+            className="flex flex-col text-[8px] sm:text-[8.5px] font-sans font-semibold tracking-[0.25em] leading-[1.15] border-l pl-2.5 py-0.5 uppercase transition-colors duration-500"
+          >
+            {mode === "women" ? (
+              <>
+                <span>ATELIER</span>
+                <span>DE IMAGEN</span>
+              </>
+            ) : (
+              <>
+                <span>HOMME</span>
+                <span>SASTRERÍA</span>
+              </>
+            )}
           </div>
         </a>
 
+        {/* Center: Dynamic Mode Switcher (MUJER / HOMBRE) */}
+        <div
+          style={{
+            backgroundColor: "var(--bg-subtle)",
+            borderColor: "var(--border-light)",
+          }}
+          className="flex items-center p-1 rounded-full border transition-all duration-500 shadow-inner"
+        >
+          <button
+            onClick={() => onToggleMode("women")}
+            style={{
+              backgroundColor:
+                mode === "women" ? "var(--btn-bg)" : "transparent",
+              color:
+                mode === "women" ? "var(--btn-text)" : "var(--text-muted)",
+            }}
+            className="px-3.5 py-1 text-xs font-sans uppercase tracking-widest font-semibold rounded-full transition-all duration-300 cursor-pointer"
+          >
+            Mujer
+          </button>
+          <button
+            onClick={() => onToggleMode("men")}
+            style={{
+              backgroundColor:
+                mode === "men" ? "var(--btn-bg)" : "transparent",
+              color:
+                mode === "men" ? "var(--btn-text)" : "var(--text-muted)",
+            }}
+            className="px-3.5 py-1 text-xs font-sans uppercase tracking-widest font-semibold rounded-full transition-all duration-300 cursor-pointer"
+          >
+            Hombre
+          </button>
+        </div>
+
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-10 text-[14px] font-normal tracking-wide text-[#34485a]">
+        <nav className="hidden md:flex items-center gap-8 text-[14px] font-normal tracking-wide">
           <a
             href="#approach"
-            className="hover:text-[#122130] transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-[#122130] hover:after:w-full after:transition-all"
+            style={{ color: "var(--text-muted)" }}
+            className="hover:opacity-100 transition-opacity relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-current hover:after:w-full after:transition-all"
           >
-            My approach
+            {data.nav.approach}
           </a>
           <a
             href="#services"
-            className="hover:text-[#122130] transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-[#122130] hover:after:w-full after:transition-all"
+            style={{ color: "var(--text-muted)" }}
+            className="hover:opacity-100 transition-opacity relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-current hover:after:w-full after:transition-all"
           >
-            Services
+            {data.nav.services}
           </a>
           <a
             href="#how-it-works"
-            className="hover:text-[#122130] transition-colors relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-[#122130] hover:after:w-full after:transition-all"
+            style={{ color: "var(--text-muted)" }}
+            className="hover:opacity-100 transition-opacity relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-current hover:after:w-full after:transition-all"
           >
-            How it works
+            {data.nav.howItWorks}
           </a>
         </nav>
 
@@ -65,17 +131,22 @@ export default function Navbar({ onOpenTalk }: NavbarProps) {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={onOpenTalk}
-            className="inline-flex items-center gap-1.5 text-[14.5px] font-medium text-[#122130] hover:text-[#5b7f95] transition-colors group cursor-pointer"
+            style={{ color: "var(--text-main)" }}
+            className="inline-flex items-center gap-1.5 text-[14.5px] font-medium transition-colors group cursor-pointer hover:opacity-80"
           >
-            <span>Let&apos;s talk</span>
-            <ArrowUpRight className="w-4 h-4 stroke-[1.75] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[#122130] group-hover:text-[#5b7f95]" />
+            <span>{data.nav.cta}</span>
+            <ArrowUpRight
+              style={{ color: "var(--color-accent)" }}
+              className="w-4 h-4 stroke-[2] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
           </button>
         </div>
 
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-[#122130] focus:outline-none"
+          style={{ color: "var(--text-main)" }}
+          className="md:hidden p-2 focus:outline-none"
           aria-label="Toggle Navigation Menu"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -84,37 +155,98 @@ export default function Navbar({ onOpenTalk }: NavbarProps) {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#F2F7FA] border-b border-[#D8E4EC] px-6 py-6 space-y-4 animate-fade-in shadow-lg">
+        <div
+          style={{
+            backgroundColor: "var(--bg-primary)",
+            borderColor: "var(--border-light)",
+          }}
+          className="md:hidden border-b px-6 py-6 space-y-4 animate-mode-switch shadow-xl"
+        >
+          {/* Mobile gender toggle */}
+          <div className="flex items-center justify-between pb-3 border-b border-white/10">
+            <span
+              style={{ color: "var(--text-muted)" }}
+              className="text-xs font-sans uppercase tracking-widest font-medium"
+            >
+              Colección
+            </span>
+            <div
+              style={{
+                backgroundColor: "var(--bg-subtle)",
+                borderColor: "var(--border-light)",
+              }}
+              className="flex items-center p-1 rounded-full border"
+            >
+              <button
+                onClick={() => {
+                  onToggleMode("women");
+                  setMobileMenuOpen(false);
+                }}
+                style={{
+                  backgroundColor:
+                    mode === "women" ? "var(--btn-bg)" : "transparent",
+                  color:
+                    mode === "women" ? "var(--btn-text)" : "var(--text-muted)",
+                }}
+                className="px-3 py-1 text-xs uppercase font-medium rounded-full"
+              >
+                Mujer
+              </button>
+              <button
+                onClick={() => {
+                  onToggleMode("men");
+                  setMobileMenuOpen(false);
+                }}
+                style={{
+                  backgroundColor:
+                    mode === "men" ? "var(--btn-bg)" : "transparent",
+                  color:
+                    mode === "men" ? "var(--btn-text)" : "var(--text-muted)",
+                }}
+                className="px-3 py-1 text-xs uppercase font-medium rounded-full"
+              >
+                Hombre
+              </button>
+            </div>
+          </div>
+
           <a
             href="#approach"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-base text-[#122130] font-medium py-1.5"
+            style={{ color: "var(--text-main)" }}
+            className="block text-base font-medium py-1.5"
           >
-            My approach
+            {data.nav.approach}
           </a>
           <a
             href="#services"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-base text-[#122130] font-medium py-1.5"
+            style={{ color: "var(--text-main)" }}
+            className="block text-base font-medium py-1.5"
           >
-            Services
+            {data.nav.services}
           </a>
           <a
             href="#how-it-works"
             onClick={() => setMobileMenuOpen(false)}
-            className="block text-base text-[#122130] font-medium py-1.5"
+            style={{ color: "var(--text-main)" }}
+            className="block text-base font-medium py-1.5"
           >
-            How it works
+            {data.nav.howItWorks}
           </a>
-          <div className="pt-3 border-t border-[#D8E4EC]">
+          <div
+            style={{ borderColor: "var(--border-light)" }}
+            className="pt-3 border-t"
+          >
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenTalk();
               }}
-              className="inline-flex items-center gap-1.5 text-base font-semibold text-[#122130] hover:text-[#5b7f95]"
+              style={{ color: "var(--color-accent)" }}
+              className="inline-flex items-center gap-1.5 text-base font-semibold"
             >
-              <span>Let&apos;s talk</span>
+              <span>{data.nav.cta}</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>

@@ -2,53 +2,51 @@
 
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import { SiteContent } from "@/types/content";
 
 interface HowItWorksProps {
+  data: SiteContent;
   onOpenTalk: () => void;
 }
 
-export default function HowItWorks({ onOpenTalk }: HowItWorksProps) {
-  const steps = [
-    {
-      number: "Step 01",
-      title: "Complimentary Discovery Call",
-      description:
-        "A 20-minute private video session to discuss your lifestyle, challenges, and determine which service best fits your goals.",
-    },
-    {
-      number: "Step 02",
-      title: "Interactive Studio or Home Session",
-      description:
-        "We delve into hands-on drapery, closet editing, or curated shopping with focused attention and zero judgment.",
-    },
-    {
-      number: "Step 03",
-      title: "Your Digital Lookbook & Guidance",
-      description:
-        "Access your custom outfits, styling combinations, and curated shopping links anytime from your mobile device.",
-    },
-  ];
-
+export default function HowItWorks({ data, onOpenTalk }: HowItWorksProps) {
   return (
-    <section id="how-it-works" className="bg-[#F2F7FA] py-20 lg:py-28 border-b border-[#D8E4EC]/60">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+    <section
+      id="how-it-works"
+      style={{
+        backgroundColor: "var(--bg-primary)",
+        borderBottomColor: "var(--border-light)",
+      }}
+      className="py-20 lg:py-28 border-b transition-colors duration-500"
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 animate-mode-switch">
         {/* Section Header */}
-        <div className="pb-4 border-b border-[#CCDCE6] flex items-center justify-between">
+        <div
+          style={{ borderColor: "var(--border-separator)" }}
+          className="pb-4 border-b flex items-center justify-between transition-colors duration-500"
+        >
           <div className="flex items-center gap-2.5">
             <svg
-              className="w-3.5 h-3.5 text-[#546b7f]"
+              style={{ color: "var(--color-accent)" }}
+              className="w-3.5 h-3.5 transition-colors duration-500"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
               <path d="M11 2h2v6.5l4.6-4.6 1.4 1.4L14.4 10H21v2h-6.6l4.6 4.6-1.4 1.4L13 13.4V20h-2v-6.6l-4.6 4.6-1.4-1.4L9.6 12H3v-2h6.6L5 5.4l1.4-1.4L11 8.6V2z" />
             </svg>
-            <span className="text-[11.5px] sm:text-xs font-sans uppercase font-semibold tracking-[0.25em] text-[#122130]">
-              The Experience
+            <span
+              style={{ color: "var(--text-main)" }}
+              className="text-[11.5px] sm:text-xs font-sans uppercase font-semibold tracking-[0.25em] transition-colors duration-500"
+            >
+              {data.experience.category}
             </span>
           </div>
 
-          <div className="text-xs sm:text-sm font-sans font-medium tracking-widest text-[#546b7f]">
-            04 / 04
+          <div
+            style={{ color: "var(--text-dim)" }}
+            className="text-xs sm:text-sm font-sans font-medium tracking-widest transition-colors duration-500"
+          >
+            {data.experience.index}
           </div>
         </div>
 
@@ -57,25 +55,47 @@ export default function HowItWorks({ onOpenTalk }: HowItWorksProps) {
           {/* Left Column: The 3 Practical Steps */}
           <div className="lg:col-span-6 space-y-10">
             <div>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.12] text-[#122130] mb-4">
-                Effortless elegance, step by step.
+              <h2
+                style={{ color: "var(--text-main)" }}
+                className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light leading-[1.12] mb-4 transition-colors duration-500"
+              >
+                {data.experience.title}
               </h2>
-              <p className="text-[#415566] text-base leading-relaxed">
-                A seamless, stress-free path designed to respect your schedule and provide lifelong clarity.
+              <p
+                style={{ color: "var(--text-muted)" }}
+                className="text-base leading-relaxed transition-colors duration-500"
+              >
+                {data.experience.intro}
               </p>
             </div>
 
             <div className="space-y-8">
-              {steps.map((st) => (
-                <div key={st.number} className="relative pl-8 border-l border-[#cfdde6]">
-                  <span className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full bg-[#5d8197]" />
-                  <span className="text-xs font-mono uppercase tracking-wider text-[#5d8197] font-semibold">
+              {data.experience.steps.map((st) => (
+                <div
+                  key={st.number}
+                  style={{ borderColor: "var(--border-separator)" }}
+                  className="relative pl-8 border-l transition-colors duration-500"
+                >
+                  <span
+                    style={{ backgroundColor: "var(--color-accent)" }}
+                    className="absolute -left-[5px] top-1 w-2.5 h-2.5 rounded-full transition-colors duration-500"
+                  />
+                  <span
+                    style={{ color: "var(--color-accent)" }}
+                    className="text-xs font-mono uppercase tracking-wider font-semibold transition-colors duration-500"
+                  >
                     {st.number}
                   </span>
-                  <h3 className="font-serif text-xl sm:text-2xl text-[#122130] mt-1 mb-2">
+                  <h3
+                    style={{ color: "var(--text-main)" }}
+                    className="font-serif text-xl sm:text-2xl mt-1 mb-2 transition-colors duration-500"
+                  >
                     {st.title}
                   </h3>
-                  <p className="text-[#415566] text-sm sm:text-base leading-relaxed">
+                  <p
+                    style={{ color: "var(--text-muted)" }}
+                    className="text-sm sm:text-base leading-relaxed transition-colors duration-500"
+                  >
                     {st.description}
                   </p>
                 </div>
@@ -85,9 +105,13 @@ export default function HowItWorks({ onOpenTalk }: HowItWorksProps) {
             <div className="pt-2">
               <button
                 onClick={onOpenTalk}
-                className="inline-flex items-center gap-2 bg-[#122130] text-white px-7 py-3 rounded-full text-sm font-medium tracking-wide hover:bg-[#20364b] transition-all duration-200 group"
+                style={{
+                  backgroundColor: "var(--btn-bg)",
+                  color: "var(--btn-text)",
+                }}
+                className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-medium tracking-wide transition-all duration-300 shadow-md group cursor-pointer hover:opacity-90"
               >
-                <span>Schedule a conversation</span>
+                <span>{data.experience.cta}</span>
                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </button>
             </div>
@@ -95,28 +119,45 @@ export default function HowItWorks({ onOpenTalk }: HowItWorksProps) {
 
           {/* Right Column: Editorial Visual & Testimonial */}
           <div className="lg:col-span-6 flex flex-col gap-8">
-            <div className="relative aspect-[4/3] rounded-sm overflow-hidden shadow-xl">
+            <div
+              style={{ borderColor: "var(--border-light)" }}
+              className="relative aspect-[4/3] rounded-sm overflow-hidden shadow-xl border transition-colors duration-500"
+            >
               <Image
-                src="/images/wardrobe.jpg"
-                alt="Curated minimalist luxury wardrobe"
+                key={data.experience.imageSrc}
+                src={data.experience.imageSrc}
+                alt={data.experience.imageAlt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
+                className="object-cover object-center transition-transform duration-700 hover:scale-105"
               />
             </div>
 
             {/* Testimonial Quote */}
-            <div className="bg-white p-8 rounded-sm border border-[#D8E4EC] shadow-sm">
-              <p className="font-serif italic text-lg sm:text-xl text-[#122130] leading-relaxed mb-4">
-                &ldquo;Working with Aura shifted how I experience my mornings.
-                I no longer stare at my closet feeling overwhelmed. I finally look in the
-                mirror and see someone who feels genuinely like me.&rdquo;
+            <div
+              style={{
+                backgroundColor: "var(--bg-card)",
+                borderColor: "var(--border-light)",
+              }}
+              className="p-8 rounded-sm border shadow-sm transition-colors duration-500"
+            >
+              <p
+                style={{ color: "var(--text-main)" }}
+                className="font-serif italic text-lg sm:text-xl leading-relaxed mb-4 transition-colors duration-500"
+              >
+                &ldquo;{data.experience.quote}&rdquo;
               </p>
-              <div className="flex items-center justify-between text-xs text-[#546b7f]">
-                <span className="font-semibold uppercase tracking-wider text-[#122130]">
-                  Valeria C.
+              <div
+                style={{ color: "var(--text-dim)" }}
+                className="flex items-center justify-between text-xs transition-colors duration-500"
+              >
+                <span
+                  style={{ color: "var(--color-accent)" }}
+                  className="font-semibold uppercase tracking-wider transition-colors duration-500"
+                >
+                  {data.experience.authorName}
                 </span>
-                <span>Founder & Creative Strategist</span>
+                <span>{data.experience.authorRole}</span>
               </div>
             </div>
           </div>

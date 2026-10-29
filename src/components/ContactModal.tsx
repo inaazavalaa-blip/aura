@@ -2,21 +2,26 @@
 
 import { useState, useEffect } from "react";
 import { X, CheckCircle, ArrowRight } from "lucide-react";
+import { SiteContent } from "@/types/content";
 
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
+  data: SiteContent;
   initialService?: string;
 }
 
 export default function ContactModal({
   isOpen,
   onClose,
-  initialService = "The Signature Transformation",
+  data,
+  initialService,
 }: ContactModalProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [service, setService] = useState(initialService);
+  const [service, setService] = useState(
+    initialService || data.modal.services[0] || ""
+  );
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -56,39 +61,60 @@ export default function ContactModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
       {/* Dark overlay backdrop */}
       <div
-        className="fixed inset-0 bg-[#122130]/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-xl bg-[#F2F7FA] border border-[#CCDCE6] shadow-2xl rounded-sm p-6 sm:p-10 z-10 overflow-y-auto max-h-[90vh]">
+      <div
+        style={{
+          backgroundColor: "var(--bg-primary)",
+          borderColor: "var(--border-light)",
+          color: "var(--text-main)",
+        }}
+        className="relative w-full max-w-xl border shadow-2xl rounded-sm p-6 sm:p-10 z-10 overflow-y-auto max-h-[90vh] transition-colors duration-500"
+      >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 text-[#546b7f] hover:text-[#122130] transition-colors"
-          aria-label="Close modal"
+          style={{ color: "var(--text-muted)" }}
+          className="absolute top-6 right-6 p-2 hover:opacity-100 transition-opacity"
+          aria-label="Cerrar modal"
         >
           <X className="w-5 h-5" />
         </button>
 
         {submitted ? (
           <div className="text-center py-10 space-y-4">
-            <div className="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div
+              style={{
+                backgroundColor: "var(--tag-bg)",
+                color: "var(--color-accent)",
+              }}
+              className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
               <CheckCircle className="w-8 h-8" />
             </div>
-            <h3 className="font-serif text-3xl text-[#122130]">
-              Inquiry Sent with Grace
+            <h3 className="font-serif text-3xl">
+              Solicitud Recibida con Éxito
             </h3>
-            <p className="text-[#415566] text-base max-w-md mx-auto leading-relaxed">
-              Thank you, <span className="font-medium text-[#122130]">{name || "darling"}</span>. We have received your inquiry for{" "}
-              <span className="font-medium text-[#122130]">{service}</span>. Our studio will reach out to you within 24 hours to coordinate your private session.
+            <p
+              style={{ color: "var(--text-muted)" }}
+              className="text-base max-w-md mx-auto leading-relaxed"
+            >
+              Gracias, <span className="font-medium text-current">{name || "estimado/a"}</span>. Hemos registrado tu interés en{" "}
+              <span className="font-medium text-current">{service}</span>. Nuestro atelier te contactará en menos de 24 horas para coordinar tu cita privada.
             </p>
             <div className="pt-6">
               <button
                 onClick={handleReset}
-                className="bg-[#122130] text-white px-8 py-3 rounded-full text-sm font-medium hover:bg-[#20364b] transition-colors"
+                style={{
+                  backgroundColor: "var(--btn-bg)",
+                  color: "var(--btn-text)",
+                }}
+                className="px-8 py-3 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
               >
-                Back to Studio
+                Volver al Sitio
               </button>
             </div>
           </div>
@@ -96,92 +122,130 @@ export default function ContactModal({
           <div>
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-2">
-                <span className="w-4 h-[1.5px] bg-[#5d8197] inline-block"></span>
-                <span className="text-[11px] font-sans uppercase tracking-[0.2em] font-medium text-[#5d8197]">
-                  Let&apos;s Connect
+                <span
+                  style={{ backgroundColor: "var(--color-accent)" }}
+                  className="w-4 h-[1.5px] inline-block"
+                />
+                <span
+                  style={{ color: "var(--color-accent)" }}
+                  className="text-[11px] font-sans uppercase tracking-[0.2em] font-medium"
+                >
+                  {data.modal.eyebrow}
                 </span>
               </div>
-              <h2 className="font-serif text-3xl sm:text-4xl text-[#122130] font-light">
-                Begin Your Image Journey
+              <h2 className="font-serif text-3xl sm:text-4xl font-light">
+                {data.modal.title}
               </h2>
-              <p className="text-[#415566] text-sm mt-1.5 leading-relaxed">
-                Leave your details below and tell us a bit about your style aspirations.
+              <p
+                style={{ color: "var(--text-muted)" }}
+                className="text-sm mt-1.5 leading-relaxed"
+              >
+                {data.modal.subtitle}
               </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-sans uppercase tracking-wider text-[#34485a] font-medium mb-1.5">
-                  Your Full Name
+                <label
+                  style={{ color: "var(--text-dim)" }}
+                  className="block text-xs font-sans uppercase tracking-wider font-medium mb-1.5"
+                >
+                  Nombre Completo
                 </label>
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Paulina García"
+                  placeholder="Ej. Paulina García / Carlos Mendoza"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-white border border-[#CCDCE6] rounded-sm px-4 py-2.5 text-sm text-[#122130] placeholder-[#8ca2b3] focus:outline-none focus:border-[#5d8197] focus:ring-1 focus:ring-[#5d8197] transition-colors"
+                  style={{
+                    backgroundColor: "var(--bg-surface)",
+                    borderColor: "var(--border-light)",
+                    color: "var(--text-main)",
+                  }}
+                  className="w-full rounded-sm px-4 py-2.5 text-sm border focus:outline-none focus:ring-1 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-sans uppercase tracking-wider text-[#34485a] font-medium mb-1.5">
-                  Email Address
+                <label
+                  style={{ color: "var(--text-dim)" }}
+                  className="block text-xs font-sans uppercase tracking-wider font-medium mb-1.5"
+                >
+                  Correo Electrónico
                 </label>
                 <input
                   type="email"
                   required
-                  placeholder="name@example.com"
+                  placeholder="contacto@ejemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-white border border-[#CCDCE6] rounded-sm px-4 py-2.5 text-sm text-[#122130] placeholder-[#8ca2b3] focus:outline-none focus:border-[#5d8197] focus:ring-1 focus:ring-[#5d8197] transition-colors"
+                  style={{
+                    backgroundColor: "var(--bg-surface)",
+                    borderColor: "var(--border-light)",
+                    color: "var(--text-main)",
+                  }}
+                  className="w-full rounded-sm px-4 py-2.5 text-sm border focus:outline-none focus:ring-1 transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-sans uppercase tracking-wider text-[#34485a] font-medium mb-1.5">
-                  Service of Interest
+                <label
+                  style={{ color: "var(--text-dim)" }}
+                  className="block text-xs font-sans uppercase tracking-wider font-medium mb-1.5"
+                >
+                  Servicio de Interés
                 </label>
                 <select
                   value={service}
                   onChange={(e) => setService(e.target.value)}
-                  className="w-full bg-white border border-[#CCDCE6] rounded-sm px-4 py-2.5 text-sm text-[#122130] focus:outline-none focus:border-[#5d8197] focus:ring-1 focus:ring-[#5d8197] transition-colors"
+                  style={{
+                    backgroundColor: "var(--bg-surface)",
+                    borderColor: "var(--border-light)",
+                    color: "var(--text-main)",
+                  }}
+                  className="w-full rounded-sm px-4 py-2.5 text-sm border focus:outline-none focus:ring-1 transition-colors"
                 >
-                  <option value="The Signature Transformation">
-                    The Signature Transformation (4 Weeks)
-                  </option>
-                  <option value="Wardrobe Detox & Capsule Edit">
-                    Wardrobe Detox & Capsule Edit (1 Day)
-                  </option>
-                  <option value="Colorimetry & Body Architecture">
-                    Colorimetry & Body Architecture (Studio)
-                  </option>
-                  <option value="General Styling Consultation">
-                    General Styling Consultation
-                  </option>
+                  {data.modal.services.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-sans uppercase tracking-wider text-[#34485a] font-medium mb-1.5">
-                  Tell us about your style goals
+                <label
+                  style={{ color: "var(--text-dim)" }}
+                  className="block text-xs font-sans uppercase tracking-wider font-medium mb-1.5"
+                >
+                  Tus objetivos de imagen
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="What would you like to achieve? (e.g. career shift, closet renewal, finding my personal colors...)"
+                  placeholder="¿Qué te gustaría transformar? (ej. renovación de armario, cambio de rol ejecutivo, encontrar mis colores ideales...)"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full bg-white border border-[#CCDCE6] rounded-sm px-4 py-2.5 text-sm text-[#122130] placeholder-[#8ca2b3] focus:outline-none focus:border-[#5d8197] focus:ring-1 focus:ring-[#5d8197] transition-colors"
+                  style={{
+                    backgroundColor: "var(--bg-surface)",
+                    borderColor: "var(--border-light)",
+                    color: "var(--text-main)",
+                  }}
+                  className="w-full rounded-sm px-4 py-2.5 text-sm border focus:outline-none focus:ring-1 transition-colors"
                 />
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#122130] text-white py-3.5 px-6 rounded-full text-sm font-medium tracking-wide hover:bg-[#20364b] transition-all duration-200 group cursor-pointer"
+                  style={{
+                    backgroundColor: "var(--btn-bg)",
+                    color: "var(--btn-text)",
+                  }}
+                  className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-full text-sm font-medium tracking-wide shadow-md hover:opacity-90 transition-opacity cursor-pointer"
                 >
-                  <span>Send Consultation Request</span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  <span>Enviar Solicitud de Consulta</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
             </form>
